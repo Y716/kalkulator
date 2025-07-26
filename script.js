@@ -9,25 +9,26 @@ populate();
 function populate(){
     buttons.forEach(button =>{
         button.addEventListener("click", () =>{
-            if (operator && !operand2) display.textContent = ''
-            if(Number.isInteger(parseInt(button.textContent))){
+            if(Number.isFinite(parseFloat(button.textContent))){
+                if(operator && display.textContent == operand1) display.textContent = ''
+
                 if(display.textContent == 0){
-                    display.textContent = parseInt(button.textContent);
+                    display.textContent = parseFloat(button.textContent);
                 }else{
-                    display.textContent += parseInt(button.textContent);
+                    display.textContent += parseFloat(button.textContent);
                 }
             }
             else{
                 if (operator){
-                    operand2 = parseInt(display.textContent);
+                    operand2 = parseFloat(display.textContent);
                 }else{
-                    operand1 = parseInt(display.textContent);
+                    operand1 = parseFloat(display.textContent);
                 }
                 switch (button.className) {
                     case "operator":
                         if(operand2){
                             operand1 = operation(operand1, operand2, operator);
-                            display.textContent = parseInt(operand1);
+                            display.textContent = parseFloat(operand1).toFixed(6);
                             operand2 = '';
                             operator = button.id;
                         }else{
@@ -37,12 +38,8 @@ function populate(){
                         break;
                     case "equals":
                         if(operator){
-                            console.log(operand1);
-                            console.log(operand2);
-                            console.log(operator);
                             operand1 = operation(operand1, operand2, operator);
-                            console.log(operand1);
-                            display.textContent = parseInt(operand1);
+                            display.textContent = parseFloat(operand1).toFixed(6);
                             operand2 = '';
                             operator = '';
                         }
@@ -52,7 +49,13 @@ function populate(){
                         operand1 = '';
                         operand2 = '';
                         operator = '';
-                        break;                    
+                        break;
+                    case "negative":
+                        display.textContent = -display.textContent
+                        break;
+                    case "dot":
+                        display.textContent = display.textContent+ "."
+                        break;
                 }
             }
         
