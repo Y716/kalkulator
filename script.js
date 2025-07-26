@@ -4,12 +4,17 @@ const display = document.querySelector("div.display");
 console.log(display.textContent);
 let operand1, operand2, operator;
 const buttons = document.querySelectorAll("button");
+let haveResult = false;
 
 populate();
 function populate(){
     buttons.forEach(button =>{
         button.addEventListener("click", () =>{
             if(Number.isFinite(parseFloat(button.textContent))){
+                if(haveResult){
+                    display.textContent = 0;
+                    haveResult = false;
+                }
                 if(operator && display.textContent == operand1) display.textContent = ''
 
                 if(display.textContent == 0){
@@ -26,22 +31,26 @@ function populate(){
                 }
                 switch (button.className) {
                     case "operator":
-                        if(operand2){
-                            operand1 = operation(operand1, operand2, operator);
-                            display.textContent = parseFloat(operand1).toFixed(6);
-                            operand2 = '';
-                            operator = button.id;
-                        }else{
-                            console.log(button.id);
-                            operator = button.id;
+                        if (operator) {
+                            operator = button.id;}
+                        else{
+                            if(operand2){
+                                operand1 = operation(operand1, operand2, operator);
+                                display.textContent =  display.textContent.length >=6 ?  parseFloat(operand1).toFixed(6) : parseFloat(operand1) ;
+                                operand2 = '';
+                                operator = button.id;
+                            }else{
+                                operator = button.id;
+                            }
                         }
                         break;
                     case "equals":
                         if(operator){
                             operand1 = operation(operand1, operand2, operator);
-                            display.textContent = parseFloat(operand1).toFixed(6);
+                            display.textContent =  display.textContent.length >=6 ?  parseFloat(operand1).toFixed(6) : parseFloat(operand1) ;
                             operand2 = '';
                             operator = '';
+                            haveResult = true;
                         }
                         break;
                     case "clear":
@@ -54,7 +63,7 @@ function populate(){
                         display.textContent = -display.textContent
                         break;
                     case "dot":
-                        display.textContent = display.textContent+ "."
+                        if(!display.textContent.includes(".")) display.textContent = display.textContent+ "."
                         break;
                 }
             }
@@ -90,6 +99,7 @@ function operation(num1, num2, operator){
         case "multiply":
             return multiply(num1, num2);
         case "divide":
+            if (num2 == 0) return 8008135
             return divide(num1, num2);   
         default:
             break;
