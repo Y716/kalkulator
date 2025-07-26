@@ -1,0 +1,30 @@
+.container{
+    /* background: peachpuff; */
+    border: 4px solid brown;
+    height: 600px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-self: stretch;
+    /* flex-wrap: wrap; */
+}
+
+.container .row{
+    /* background: aqua; */
+    box-sizing: border-box;
+    border: 0.1px solid;
+    width: 600px;
+    height: 100px;
+    display: flex;
+
+}
+
+.row button{
+    flex-grow: 1;
+}
+
+.display {
+    font-size: 100px;
+    margin-left: auto;
+}
